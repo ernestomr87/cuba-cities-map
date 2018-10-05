@@ -1,25 +1,25 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-
-const httpOptions = {
-	headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-};
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root'
 })
-export class BooksService {
-	private booksUrl = 'https://www.anapioficeandfire.com/api/books'; // URL to web api
+export class CityService {
+	private citiesUrl = 'https://api.teleport.org/api/cities/geonameid:';
 
 	constructor(private http: HttpClient) {}
 
-	getBooks(): Observable<any[]> {
+	getCity(geonameid: number): Observable<City> {
+		const url = `${this.citiesUrl}${geonameid}`;
 		return this.http
-			.get<any[]>(this.booksUrl)
-			.pipe(tap((books) => this.log('fetched books')), catchError(this.handleError('getBooks', [])));
+			.get<City>(url)
+			.pipe(
+				tap((_) => this.log(`fetched City id=${geonameid}`)),
+				catchError(this.handleError<City>(`getCity id=${geonameid}`))
+			);
 	}
 
 	/**
@@ -41,8 +41,8 @@ export class BooksService {
 		};
 	}
 
-	/** Log a HeroService message with the MessageService */
+	/** Log a CityService message with the MessageService */
 	private log(message: string) {
-		console.log(`BooksService: ${message}`);
+		console.log(`CityService: ${message}`);
 	}
 }

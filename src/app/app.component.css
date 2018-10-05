@@ -1,0 +1,10 @@
+.my-map {
+	height: 100vh;
+}
+
+
+.code-box-demo {
+  border-bottom: 1px solid #ebedf0;
+  padding: 42px 24px 50px;
+  color: rgba(0,0,0,.65);
+}
